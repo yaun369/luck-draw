@@ -97,3 +97,5 @@ class LuckDraw {
     }
   }
 }
+
+module.exports = LuckDraw;
