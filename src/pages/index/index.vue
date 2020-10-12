@@ -12,9 +12,10 @@
     </view>
     <view
       class="button"
+      :class="{'loading':loading}"
       @tap="handleClickDraw"
     >
-      开始抽奖
+      {{ loading ? '抽奖中...' : '开始抽奖' }}
     </view>
   </view>
 </template>
@@ -51,10 +52,13 @@ export default {
       ],
       rewardId: 0, // 当前 active 状态的 id
       id: 0, // 中奖id
+      loading: false
     };
   },
   methods: {
     handleClickDraw() {
+      if(this.loading) return;
+      this.loading = true;
       // 初始化抽奖, 3代表圈数， 8代表速度，也代表时间片的个数
       const luckDrawFn = new LuckDraw(this.prizeList, this.rotateDir, 3, 7);
       this.id = 7;
@@ -69,6 +73,7 @@ export default {
           // 最终停止的回调函数
           //最后转盘停止的地方，可以弹出奖励弹框或其他操作
           this.rewardId = params.id;
+          this.loading = false;
           console.log(`抽中 ${params.id} `);
         }
       );
